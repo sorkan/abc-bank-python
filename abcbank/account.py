@@ -20,7 +20,25 @@ class Account:
         if (amount <= 0):
             raise ValueError("amount must be greater than zero")
         else:
-            self.transactions.append(Transaction(-amount))
+            # check for withdrawal over available funds - overdraft
+            if (self.sumTransactions() < amount):
+               raise ValueError("amount greater than avail funds")
+            else:
+               self.transactions.append(Transaction(-amount))
+
+    def transferFunds(self, Account_t, amount):
+        """
+          The account you are transferring to is Account_t 
+          (ie: savings, checking,maxi-savings).  the self represents
+          the account you are transferring from.  amount is
+          how much is being transferred
+        """
+        try:
+           self.withdraw(amount)       # call self's withdraw method
+           Account_t.deposit(amount)   # call the destination account deposit
+        except ValueError as err:
+           raise ValueError("transfer exception: "+err[0])
+
 
     def interestEarned(self):
         amount = self.sumTransactions()
