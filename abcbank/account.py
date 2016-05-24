@@ -1,4 +1,4 @@
-from abcbank.transaction import Transaction
+from transaction import Transaction
 
 CHECKING = 0
 SAVINGS = 1
